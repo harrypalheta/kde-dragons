@@ -123,6 +123,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "dbc-dragons"
+    }
+  },
+  "defaultProject": "dbc-dragons",
+  "cli": {
+    "analytics": "b9cf708a-669f-4329-afd8-9f94a880497a"
+  }
 }
