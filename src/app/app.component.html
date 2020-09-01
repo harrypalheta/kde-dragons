@@ -1,2 +1,15 @@
 <div class="page-load-animation"></div>
-<router-outlet></router-outlet>
+<!-- nav -->
+<nav class="navbar navbar-expand navbar-dark bg-dark" *ngIf="user">
+    <div class="navbar-nav">
+        <a class="nav-item nav-link" routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Home</a>
+        <a class="nav-item nav-link" routerLink="/dragons" routerLinkActive="active">Dragons</a>
+        <a class="nav-item nav-link" >{{user.firstName}}</a>
+        <a class="button" (click)="logout()">Logout</a>
+    </div>
+</nav>
+
+<div class="app-container">
+    <notification></notification>
+    <router-outlet></router-outlet>
+</div>

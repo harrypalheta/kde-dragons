@@ -1,5 +1,5 @@
 ﻿<h1>Dragons</h1>
-<a routerLink="add">Add Dragon</a>
+<a routerLink="add" class="button">Add Dragon</a>
 <table >
     <thead>
         <tr>
@@ -16,8 +16,8 @@
             <td>{{dragon.createdAt | date:'dd/MM/yyyy HH:mm' }}</td>
             <td>{{dragon.history}}</td>
             <td style="white-space: nowrap">
-                <a routerLink="edit/{{dragon.id}}" >Edit</a>
-                <button (click)="deleteDragon(dragon.id)" [disabled]="dragon.isDeleting">
+                <a routerLink="edit/{{dragon.id}}" class="button">Edit</a>
+                <button (click)="deleteDragon(dragon.id)" [disabled]="dragon.isDeleting" class="button">
                     <span *ngIf="dragon.isDeleting" ></span>
                     <span *ngIf="!dragon.isDeleting">Delete</span>
                 </button>
