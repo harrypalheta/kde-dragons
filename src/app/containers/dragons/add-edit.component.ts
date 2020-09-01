@@ -3,7 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
 
-import { AccountService, NotificationService } from '@app/services';
+import { DragonService, NotificationService } from '@app/services';
 
 @Component({ templateUrl: 'add-edit.component.html' })
 export class AddEditComponent implements OnInit {
@@ -17,8 +17,8 @@ export class AddEditComponent implements OnInit {
         private formBuilder: FormBuilder,
         private route: ActivatedRoute,
         private router: Router,
-        private accountService: AccountService,
-        private alertService: NotificationService
+        private dragonService: DragonService,
+        private notificationService: NotificationService
     ) {}
 
     ngOnInit() {
@@ -32,19 +32,20 @@ export class AddEditComponent implements OnInit {
         }
 
         this.form = this.formBuilder.group({
-            firstName: ['', Validators.required],
-            lastName: ['', Validators.required],
-            username: ['', Validators.required],
-            password: ['', passwordValidators]
+            id: [''],
+            name: ['', Validators.required],
+            type: ['', Validators.required],
+            history: [''],
         });
 
         if (!this.isAddMode) {
-            this.accountService.getById(this.id)
+            this.dragonService.getById(this.id)
                 .pipe(first())
                 .subscribe(x => {
-                    this.f.firstName.setValue(x.firstName);
-                    this.f.lastName.setValue(x.lastName);
-                    this.f.username.setValue(x.username);
+                    this.f.id.setValue(this.id);
+                    this.f.name.setValue(x.name);
+                    this.f.type.setValue(x.type);
+                    this.f.history.setValue(x.history);
                 });
         }
     }
@@ -56,7 +57,7 @@ export class AddEditComponent implements OnInit {
         this.submitted = true;
 
         // reset alerts on submit
-        this.alertService.clear();
+        this.notificationService.clear();
 
         // stop here if form is invalid
         if (this.form.invalid) {
@@ -65,36 +66,36 @@ export class AddEditComponent implements OnInit {
 
         this.loading = true;
         if (this.isAddMode) {
-            this.createUser();
+            this.createDragon();
         } else {
-            this.updateUser();
+            this.updateDragon();
         }
     }
 
-    private createUser() {
-        this.accountService.register(this.form.value)
+    private createDragon() {
+        this.dragonService.create(this.form.value)
             .pipe(first())
             .subscribe(
                 data => {
-                    this.alertService.success('User added successfully', { keepAfterRouteChange: true });
+                    this.notificationService.success('Dragon added successfully', { keepAfterRouteChange: true });
                     this.router.navigate(['.', { relativeTo: this.route }]);
                 },
                 error => {
-                    this.alertService.error(error);
+                    this.notificationService.error(error);
                     this.loading = false;
                 });
     }
 
-    private updateUser() {
-        this.accountService.update(this.id, this.form.value)
+    private updateDragon() {
+        this.dragonService.update(this.id, this.form.value)
             .pipe(first())
             .subscribe(
                 data => {
-                    this.alertService.success('Update successful', { keepAfterRouteChange: true });
+                    this.notificationService.success('Update successful', { keepAfterRouteChange: true });
                     this.router.navigate(['..', { relativeTo: this.route }]);
                 },
                 error => {
-                    this.alertService.error(error);
+                    this.notificationService.error(error);
                     this.loading = false;
                 });
     }

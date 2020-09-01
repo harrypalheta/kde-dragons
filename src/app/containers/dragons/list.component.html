@@ -1,0 +1,32 @@
+﻿<h1>Dragons</h1>
+<a routerLink="add">Add Dragon</a>
+<table >
+    <thead>
+        <tr>
+            <th style="width: 30%">Name</th>
+            <th style="width: 30%">Tipo</th>
+            <th style="width: 10%">Criado em:</th>
+            <th style="width: 30%">Historia</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let dragon of dragons">
+            <td>{{dragon.name}}</td>
+            <td>{{dragon.type}}</td>
+            <td>{{dragon.createdAt | date:'dd/MM/yyyy HH:mm' }}</td>
+            <td>{{dragon.history}}</td>
+            <td style="white-space: nowrap">
+                <a routerLink="edit/{{dragon.id}}" >Edit</a>
+                <button (click)="deleteDragon(dragon.id)" [disabled]="dragon.isDeleting">
+                    <span *ngIf="dragon.isDeleting" ></span>
+                    <span *ngIf="!dragon.isDeleting">Delete</span>
+                </button>
+            </td>
+        </tr>
+        <tr *ngIf="!dragons">
+            <td colspan="4">
+                <span></span>
+            </td>
+        </tr>
+    </tbody>
+</table>
