@@ -41,3 +41,25 @@ docker run -v $(pwd):/app -w /app node sh -c "npm install --verbose"
 ```
 docker run -it -v $(pwd):/app -w /app -p 4200:4200 node sh -c "npx ng serve --host 0.0.0.0 --disableHostCheck"
 ```
+
+## Deploy with Docker
+
+### Build
+
+> to remove the image: `docker rmi -f kde-dragons-img`
+
+```
+docker build -t kde-dragons-img .
+```
+
+### Run
+
+> to remove the container: `docker rm -f kde-dragons`
+
+```
+docker run -d -p 8080:80 -e PORT=80 --name kde-dragons kde-dragons-img
+```
+
+### Access
+
+[http://localhost:8080](http://localhost:8080)
